@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Document Hub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="navbar-container">
+        <div class="navbar-brand">Document Hub</div>
+        <div class="navbar-actions">
+            <button class="btn-outline" id="loginBtnNav" style="display: none;">Login</button>
+            <div class="admin-section" id="adminSection" style="display: none;">
+                <span class="admin-label" id="adminName"></span>
+                <button class="btn-outline" id="logoutBtn">Logout</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="header">
+        <h1>Document Hub</h1>
+        <p>Tools, templates, and resources for learning and building</p>
+    </div>
+
+    <!-- Admin Add Resource Button -->
+    <div class="admin-toolbar" id="adminToolbar" style="display: none;">
+        <button class="btn-primary" id="addResourceBtn">+ Add Resource</button>
+    </div>
+
+    <!-- Upload Modal -->
+    <div class="modal" id="uploadModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Resource</h2>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Section *</label>
+                    <select id="sectionSelect" class="form-control">
+                        <option value="">-- Choose --</option>
+                        <option value="general">General Resources</option>
+                        <option value="semester252">Semester 252</option>
+                        <option value="semester261">Semester 261</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Title *</label>
+                    <input type="text" id="descriptionInput" class="form-control" placeholder="e.g., Python Tutorial">
+                </div>
+                <div class="form-group">
+                    <label>File (Optional)</label>
+                    <div class="file-upload-box">
+                        <input type="file" id="fileInput2" class="file-input">
+                        <div class="file-name" id="fileNameDisplay2">No file selected</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Document Link (Optional)</label>
+                    <input type="url" id="documentLinkInput" class="form-control" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label>Video Link (Optional)</label>
+                    <input type="url" id="videoLinkInput" class="form-control" placeholder="https://...">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-outline" id="cancelBtn">Cancel</button>
+                <button class="btn-primary" id="submitBtn">Add Resource</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- General Resources -->
+    <section class="resource-section">
+        <h2>General Resources</h2>
+        <div class="cards-grid" id="generalSection"></div>
+    </section>
+
+    <!-- Semester 252 -->
+    <section class="resource-section">
+        <h2>Semester 252 Resources</h2>
+        <div class="cards-grid" id="semester252Section"></div>
+    </section>
+
+    <!-- Semester 261 -->
+    <section class="resource-section">
+        <h2>Semester 261 Resources</h2>
+        <div class="cards-grid" id="semester261Section"></div>
+    </section>
+</div>
+
+<script src="script-new.js"></script>
+</body>
+</html>
