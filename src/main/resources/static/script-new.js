@@ -31,7 +31,7 @@ function setAdminMode(admin, name) {
     adminName = name;
     document.getElementById('adminSection').style.display = 'flex';
     document.getElementById('adminSection').innerHTML = `
-        <span class="admin-label">Welcome, ${name}!</span>
+        <span class="admin-label">Welcome, ${escapeHtml(name)}</span>
         <button class="btn-outline" id="logoutBtn">Logout</button>
     `;
     document.getElementById('adminToolbar').style.display = 'block';
@@ -184,18 +184,24 @@ async function loadResources() {
                     const html = `
                         <div class="card">
                             ${isAdmin ? `<button class="card-delete" onclick="deleteResource('${section.id}', ${index})" title="Delete resource">×</button>` : ''}
-                            <h3>${escapeHtml(resource.title || resource.description)}</h3>
+                            <div class="card-top">
+                                <span class="resource-icon">DOC</span>
+                                <div>
+                                    <h3>${escapeHtml(resource.title || resource.description)}</h3>
+                                    <p class="card-meta">${escapeHtml(section.name)}</p>
+                                </div>
+                            </div>
                             <div class="card-links">
-                                ${resource.file ? `<a href="/uploads/${encodeURIComponent(resource.file)}" download class="card-link primary">📥 Download</a>` : ''}
-                                ${resource.documentLink ? `<a href="${escapeHtml(resource.documentLink)}" target="_blank" class="card-link secondary">📄 Document</a>` : ''}
-                                ${resource.videoLink ? `<a href="${escapeHtml(resource.videoLink)}" target="_blank" class="card-link accent">▶ Video</a>` : ''}
+                                ${resource.documentLink ? `<a href="${escapeHtml(resource.documentLink)}" target="_blank" rel="noopener noreferrer" class="card-link secondary">Preview</a>` : ''}
+                                ${resource.videoLink ? `<a href="${escapeHtml(resource.videoLink)}" target="_blank" rel="noopener noreferrer" class="card-link accent">Video</a>` : ''}
+                                ${resource.file ? `<a href="/uploads/${encodeURIComponent(resource.file)}" download class="card-link primary">Download</a>` : ''}
                             </div>
                         </div>
                     `;
                     container.innerHTML += html;
                 });
             } else {
-                container.innerHTML = '<p style="color: #999; text-align: center; padding: 20px;">No resources yet</p>';
+                container.innerHTML = '<div class="empty-state">No resources yet.</div>';
             }
         } catch (error) {
             console.error('Error loading resources:', error);

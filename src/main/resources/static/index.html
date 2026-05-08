@@ -3,98 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet">
     <title>Document Hub</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- Navbar -->
-<nav class="navbar">
-    <div class="navbar-container">
-        <div class="navbar-brand">Document Hub</div>
-        <div class="navbar-actions">
+<div class="app-shell">
+    <aside class="sidebar" aria-label="Document Hub navigation">
+        <div class="sidebar-brand">
+            <span class="brand-mark">DH</span>
+            <div class="brand-text">
+                <strong class="brand-name">Document Hub</strong>
+                <span class="brand-kicker">Resources and files</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a class="nav-item active" href="#general">
+                <span class="nav-dot"></span>
+                General
+            </a>
+            <a class="nav-item" href="#semester252">
+                <span class="nav-dot"></span>
+                Semester 252
+            </a>
+            <a class="nav-item" href="#semester261">
+                <span class="nav-dot"></span>
+                Semester 261
+            </a>
+        </nav>
+
+        <div class="sidebar-note">
+            Upload, organize, and retrieve trusted resources with a calm workspace built for repeat use.
+        </div>
+    </aside>
+
+    <main class="main-panel">
+        <div class="topbar">
             <button class="btn-outline" id="loginBtnNav" style="display: none;">Login</button>
             <div class="admin-section" id="adminSection" style="display: none;">
                 <span class="admin-label" id="adminName"></span>
                 <button class="btn-outline" id="logoutBtn">Logout</button>
             </div>
         </div>
-    </div>
-</nav>
 
-<div class="container">
-    <div class="header">
-        <h1>Document Hub</h1>
-        <p>Tools, templates, and resources for learning and building</p>
-    </div>
+        <div class="container">
+            <div class="header">
+                <div class="header-copy">
+                    <p class="eyebrow">Document workspace</p>
+                    <h1>Document Hub</h1>
+                    <p>Tools, templates, and resources for learning and building.</p>
+                </div>
 
-    <!-- Admin Add Resource Button -->
-    <div class="admin-toolbar" id="adminToolbar" style="display: none;">
-        <button class="btn-primary" id="addResourceBtn">+ Add Resource</button>
-    </div>
-
-    <!-- Upload Modal -->
-    <div class="modal" id="uploadModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Add Resource</h2>
-                <button class="modal-close" id="closeModal">&times;</button>
+                <div class="admin-toolbar" id="adminToolbar" style="display: none;">
+                    <button class="btn-primary" id="addResourceBtn">Add Resource</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>Section *</label>
-                    <select id="sectionSelect" class="form-control">
-                        <option value="">-- Choose --</option>
-                        <option value="general">General Resources</option>
-                        <option value="semester252">Semester 252</option>
-                        <option value="semester261">Semester 261</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Title *</label>
-                    <input type="text" id="descriptionInput" class="form-control" placeholder="e.g., Python Tutorial">
-                </div>
-                <div class="form-group">
-                    <label>File (Optional)</label>
-                    <div class="file-upload-box">
-                        <input type="file" id="fileInput2" class="file-input">
-                        <div class="file-name" id="fileNameDisplay2">No file selected</div>
+
+            <!-- Upload Modal -->
+            <div class="modal" id="uploadModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Add Resource</h2>
+                        <button class="modal-close" id="closeModal" aria-label="Close">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="sectionSelect">Section *</label>
+                            <select id="sectionSelect" class="form-control">
+                                <option value="">Choose a section</option>
+                                <option value="general">General Resources</option>
+                                <option value="semester252">Semester 252</option>
+                                <option value="semester261">Semester 261</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="descriptionInput">Title *</label>
+                            <input type="text" id="descriptionInput" class="form-control" placeholder="e.g., Python Tutorial">
+                        </div>
+                        <div class="form-group">
+                            <label for="fileInput2">File (optional)</label>
+                            <div class="file-upload-box">
+                                <input type="file" id="fileInput2" class="file-input">
+                                <div class="file-name" id="fileNameDisplay2">No file selected</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="documentLinkInput">Document link (optional)</label>
+                            <input type="url" id="documentLinkInput" class="form-control" placeholder="https://...">
+                        </div>
+                        <div class="form-group">
+                            <label for="videoLinkInput">Video link (optional)</label>
+                            <input type="url" id="videoLinkInput" class="form-control" placeholder="https://...">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn-outline" id="cancelBtn">Cancel</button>
+                        <button class="btn-primary" id="submitBtn">Add Resource</button>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label>Document Link (Optional)</label>
-                    <input type="url" id="documentLinkInput" class="form-control" placeholder="https://...">
-                </div>
-                <div class="form-group">
-                    <label>Video Link (Optional)</label>
-                    <input type="url" id="videoLinkInput" class="form-control" placeholder="https://...">
-                </div>
             </div>
-            <div class="modal-footer">
-                <button class="btn-outline" id="cancelBtn">Cancel</button>
-                <button class="btn-primary" id="submitBtn">Add Resource</button>
-            </div>
+
+            <section class="resource-section" id="general">
+                <div class="section-heading">
+                    <h2>General Resources</h2>
+                    <span class="section-meta">Shared files</span>
+                </div>
+                <div class="cards-grid" id="generalSection"></div>
+            </section>
+
+            <section class="resource-section" id="semester252">
+                <div class="section-heading">
+                    <h2>Semester 252 Resources</h2>
+                    <span class="section-meta">Course materials</span>
+                </div>
+                <div class="cards-grid" id="semester252Section"></div>
+            </section>
+
+            <section class="resource-section" id="semester261">
+                <div class="section-heading">
+                    <h2>Semester 261 Resources</h2>
+                    <span class="section-meta">Course materials</span>
+                </div>
+                <div class="cards-grid" id="semester261Section"></div>
+            </section>
         </div>
-    </div>
-
-    <!-- General Resources -->
-    <section class="resource-section">
-        <h2>General Resources</h2>
-        <div class="cards-grid" id="generalSection"></div>
-    </section>
-
-    <!-- Semester 252 -->
-    <section class="resource-section">
-        <h2>Semester 252 Resources</h2>
-        <div class="cards-grid" id="semester252Section"></div>
-    </section>
-
-    <!-- Semester 261 -->
-    <section class="resource-section">
-        <h2>Semester 261 Resources</h2>
-        <div class="cards-grid" id="semester261Section"></div>
-    </section>
+    </main>
 </div>
 
 <script src="script-new.js"></script>
