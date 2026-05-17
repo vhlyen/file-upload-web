@@ -1,4 +1,10 @@
 {
   "general" : [ ],
-  "semester252" : [ ]
+  "semester252" : [ {
+    "title" : "Computer Networks",
+    "description" : "Computer Networks",
+    "smallDescription" : "Documents and Videos",
+    "file" : "1778654373610_Slides.zip",
+    "videoLink" : "https://www.youtube.com/playlist?list=PL82DxkQk5E4NX745ewEN2_M-RLvISBSW7"
+  } ]
 }
