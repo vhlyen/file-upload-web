@@ -22,7 +22,10 @@
 
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Enter password" required>
+                <div class="password-field">
+                    <input type="password" id="password" placeholder="Enter password" required>
+                    <button type="button" class="password-toggle" id="passwordToggle" aria-controls="password" aria-pressed="false">Show</button>
+                </div>
             </div>
 
             <button type="submit" class="login-btn">Login</button>
@@ -36,6 +39,16 @@
     </div>
 
     <script>
+        document.getElementById('passwordToggle').addEventListener('click', () => {
+            const password = document.getElementById('password');
+            const toggle = document.getElementById('passwordToggle');
+            const shouldShow = password.type === 'password';
+
+            password.type = shouldShow ? 'text' : 'password';
+            toggle.textContent = shouldShow ? 'Hide' : 'Show';
+            toggle.setAttribute('aria-pressed', String(shouldShow));
+        });
+
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const username = document.getElementById('username').value;

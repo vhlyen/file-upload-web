@@ -20,17 +20,33 @@
         </div>
 
         <nav class="sidebar-nav">
-            <a class="nav-item active" href="#general">
+            <a class="nav-item active" href="#dashboard" data-view="dashboard">
+                <span class="nav-dot"></span>
+                Dashboard
+            </a>
+            <a class="nav-item" href="#general" data-view="general">
                 <span class="nav-dot"></span>
                 General
             </a>
-            <a class="nav-item" href="#semester252">
+            <a class="nav-item" href="#semester252" data-view="semester252">
                 <span class="nav-dot"></span>
                 Semester 252
             </a>
-            <a class="nav-item" href="#semester261">
+            <a class="nav-item" href="#semester261" data-view="semester261">
                 <span class="nav-dot"></span>
                 Semester 261
+            </a>
+            <a class="nav-item" href="#favorites" data-view="favorites">
+                <span class="nav-dot"></span>
+                Favorites
+            </a>
+            <a class="nav-item" href="#recent" data-view="recent">
+                <span class="nav-dot"></span>
+                Recent Files
+            </a>
+            <a class="nav-item" href="#settings" data-view="settings">
+                <span class="nav-dot"></span>
+                Settings
             </a>
         </nav>
 
@@ -61,6 +77,65 @@
                 </div>
             </div>
 
+            <div class="resource-tools" aria-label="Resource discovery tools">
+                <div class="search-field">
+                    <label for="resourceSearch">Search resources</label>
+                    <div class="search-row">
+                        <input type="search" id="resourceSearch" class="form-control" placeholder="Search title, section, file, or link type">
+                        <button class="btn-outline" id="clearSearchBtn" type="button">Clear</button>
+                    </div>
+                </div>
+                <div class="tool-field">
+                    <label for="typeFilter">Type</label>
+                    <select id="typeFilter" class="form-control">
+                        <option value="all">All types</option>
+                        <option value="file">Files</option>
+                        <option value="image">Images</option>
+                        <option value="pdf">PDFs</option>
+                        <option value="text">Text</option>
+                        <option value="document">Document links</option>
+                        <option value="video">Videos</option>
+                    </select>
+                </div>
+                <div class="tool-field">
+                    <label for="periodFilter">Period</label>
+                    <select id="periodFilter" class="form-control">
+                        <option value="all">Any time</option>
+                        <option value="today">Today</option>
+                        <option value="week">Past week</option>
+                        <option value="month">Past month</option>
+                    </select>
+                </div>
+                <div class="tool-field">
+                    <label for="ownerFilter">Owner</label>
+                    <select id="ownerFilter" class="form-control">
+                        <option value="all">All owners</option>
+                        <option value="mine">Mine</option>
+                    </select>
+                </div>
+                <div class="tool-field">
+                    <label for="sortSelect">Sort</label>
+                    <select id="sortSelect" class="form-control">
+                        <option value="newest">Newest first</option>
+                        <option value="recent">Recently accessed</option>
+                        <option value="title">Title A-Z</option>
+                        <option value="size">File size</option>
+                        <option value="downloads">Most downloaded</option>
+                        <option value="type">File type</option>
+                    </select>
+                </div>
+                <button class="btn-outline" id="favoritesFilterBtn" type="button" aria-pressed="false">Favorites</button>
+            </div>
+
+            <div class="dashboard-summary" id="dashboardSummary" aria-label="Document Hub summary"></div>
+
+            <div class="template-strip" id="templateStrip" style="display: none;" aria-label="Resource templates">
+                <span class="template-label">Templates</span>
+                <button class="template-btn" type="button" data-template="lecture">Lecture</button>
+                <button class="template-btn" type="button" data-template="assignment">Assignment</button>
+                <button class="template-btn" type="button" data-template="reference">Reference</button>
+            </div>
+
             <!-- Upload Modal -->
             <div class="modal" id="uploadModal">
                 <div class="modal-content">
@@ -83,11 +158,16 @@
                             <input type="text" id="descriptionInput" class="form-control" placeholder="e.g., Python Tutorial">
                         </div>
                         <div class="form-group">
+                            <label for="smallDescriptionInput">Small description (optional)</label>
+                            <input type="text" id="smallDescriptionInput" class="form-control" placeholder="Short note shown on the card">
+                        </div>
+                        <div class="form-group">
                             <label for="fileInput2">File (optional)</label>
-                            <div class="file-upload-box">
-                                <input type="file" id="fileInput2" class="file-input">
+                            <div class="file-upload-box" id="dropZone">
+                                <input type="file" id="fileInput2" class="file-input" multiple>
                                 <div class="file-name" id="fileNameDisplay2">No file selected</div>
                             </div>
+                            <div class="upload-queue" id="uploadQueue" aria-live="polite"></div>
                         </div>
                         <div class="form-group">
                             <label for="documentLinkInput">Document link (optional)</label>
@@ -99,6 +179,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <div class="upload-status" id="uploadStatus" aria-live="polite"></div>
                         <button class="btn-outline" id="cancelBtn">Cancel</button>
                         <button class="btn-primary" id="submitBtn">Add Resource</button>
                     </div>
@@ -128,10 +209,36 @@
                 </div>
                 <div class="cards-grid" id="semester261Section"></div>
             </section>
+
+            <section class="resource-section utility-section" id="settings">
+                <div class="section-heading">
+                    <h2>Settings</h2>
+                    <span class="section-meta">Session and storage</span>
+                </div>
+                <div class="settings-panel">
+                    <div>
+                        <strong>Session</strong>
+                        <p id="sessionState">Checking authentication...</p>
+                    </div>
+                    <button class="btn-outline" id="resetFiltersBtn" type="button">Reset Filters</button>
+                </div>
+            </section>
         </div>
     </main>
 </div>
-
+<div class="modal preview-modal" id="previewModal">
+    <div class="modal-content preview-content">
+        <div class="modal-header">
+            <h2 id="previewTitle">Preview</h2>
+            <button class="modal-close" id="closePreviewModal" aria-label="Close">&times;</button>
+        </div>
+        <div class="preview-body" id="previewBody"></div>
+    </div>
+</div>
+<div class="toast" id="toast" aria-live="polite"></div>
+<footer>
+    <p>© 2026 Lam Yen Vo Hoang</p>
+  </footer>
 <script src="script-new.js"></script>
 </body>
 </html>
